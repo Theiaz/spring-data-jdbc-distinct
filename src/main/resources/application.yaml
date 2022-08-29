@@ -1,0 +1,10 @@
+spring:
+  liquibase:
+    change-log: classpath:liquibase/master.xml
+
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc: DEBUG
