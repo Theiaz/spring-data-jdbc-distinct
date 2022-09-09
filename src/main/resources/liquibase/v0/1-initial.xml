@@ -9,7 +9,8 @@
             <column name="PERSISTENCE_ID" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="BAR" type="VARCHAR(32)" />
+            <column name="NAME_FIRSTNAME" type="VARCHAR(32)" />
+            <column name="NAME_SURNAME" type="VARCHAR(32)" />
         </createTable>
     </changeSet>
 </databaseChangeLog>

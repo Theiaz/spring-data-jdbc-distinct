@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.FooEntity.NameEntity;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,18 +34,20 @@ class FooRepositoryImplIT {
     @Test
     void distinctNotWorking() {
 
-        var foo1 = new FooEntity(null, "bar");
-        var foo2 = new FooEntity(null, "bar");
+        var firstname = "Max";
+        var name = new NameEntity(firstname, "Mueller");
+        var foo1 = new FooEntity(null, name);
+
+        var name2 = new NameEntity(firstname, "Mustermann");
+        var foo2 = new FooEntity(null, name2);
 
         jdbcRepository.save(foo1);
         jdbcRepository.save(foo2);
 
-//      DEBUG 680681 --- [           main] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT "FOO"."BAR" AS "BAR", "FOO"."PERSISTENCE_ID" AS "PERSISTENCE_ID" FROM "FOO"]
-        var results = jdbcRepository.findDistinctBy();
-        assertThat(results).hasSize(1);
+        var workingResult = jdbcRepository.workingCountDistinctByFirstname(firstname);
+        assertThat(workingResult).isEqualTo(1);
 
-//       DEBUG 680681 --- [           main] o.s.jdbc.core.JdbcTemplate              : Executing prepared SQL statement [SELECT COUNT(*) FROM "FOO"]
-//        var results = jdbcRepository.countDistinctBy();
-//        assertThat(results).isEqualTo(2);
+        var failingResult = jdbcRepository.countDistinctByName_Firstname(firstname);
+        assertThat(failingResult).isEqualTo(1);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 
 
@@ -14,12 +15,24 @@ public class FooEntity {
 
     @Id
     final Long persistenceId;
-    final String bar;
+    @Embedded.Nullable(prefix = "NAME_")
+    final NameEntity name;
 
-    public FooEntity(Long persistenceId, String bar) {
+    public FooEntity(Long persistenceId, NameEntity name) {
 
         this.persistenceId = persistenceId;
+        this.name = name;
+    }
 
-        this.bar = bar;
+    public static class NameEntity {
+
+        private final String firstname;
+        private final String surname;
+
+        public NameEntity(String firstname, String surname) {
+
+            this.firstname = firstname;
+            this.surname = surname;
+        }
     }
 }
